@@ -31,6 +31,6 @@ Set-ActionOutput staging-path $stagingPath
 # TODO "wham build/ci"
 
 # Publish snapshot
-PrintAndInvoke """$wham"" publish -f snapshot -o ""$stagingPath"" --verbosity detailed"
+PrintAndInvoke "$wham publish -f snapshot -o ""$stagingPath"" --verbosity detailed"
 
 Write-Host "Done" -ForegroundColor Green
