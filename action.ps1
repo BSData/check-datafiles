@@ -26,11 +26,12 @@ if ($null -eq (Get-Command $wham -ErrorAction SilentlyContinue)) {
 
 # read inputs, set output
 $stagingPath = Get-ActionInput staging-path -Required
+New-Item $stagingPath -ItemType Directory -ErrorAction:Ignore
 Set-ActionOutput staging-path $stagingPath
 
 # TODO "wham build/ci"
 
-# Publish snapshot
+# Publish snapshot to staging path
 PrintAndInvoke "$wham publish -f snapshot -o ""$stagingPath"" --verbosity detailed"
 
 Write-Host "Done" -ForegroundColor Green

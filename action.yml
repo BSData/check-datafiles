@@ -2,19 +2,20 @@ name: Check datafiles
 author: BSData
 description: >
   Compiles, checks and tests datafiles in the repository in terms
-  of validity, integrity and bugs, uploads outputs to workflow artifacts.
+  of validity, integrity and bugs, saves generated artifacts to
+  'staging-path' (output).
 inputs:
   token:
     description: GitHub auth token to authorize uploading release assets
     required: false
     default: ${{ github.token }}
   staging-path:
-    description: Path where assets will be written to before being uploaded
+    description: Path where generated assets will be saved (set as output as well).
     required: false
     default: ${{ runner.temp }}/assets
 outputs:
   staging-path:
-    description: Path where generated assets were saved
+    description: Path where generated assets were saved.
 runs:
   using: node12
   main: dist/index.js
