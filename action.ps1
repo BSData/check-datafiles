@@ -2,6 +2,8 @@
 
 $ErrorActionPreference = 'Stop'
 
+Import-Module $PSScriptRoot/lib/GitHubActionsCore
+
 # read inputs, set output
 $stagingPath = Get-ActionInput staging-path -Required
 $null = New-Item $stagingPath -ItemType Directory -ErrorAction:Ignore
@@ -12,8 +14,6 @@ if ((Get-ChildItem -Recurse -Include *.cat, *.gst -File).Length -eq 0) {
     Write-Host "No datafiles to process." -ForegroundColor Green
     exit 0
 }
-
-Import-Module $PSScriptRoot/lib/GitHubActionsCore
 
 function PrintAndInvoke{
     param($command)
