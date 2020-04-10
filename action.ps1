@@ -15,21 +15,21 @@ function PrintAndInvoke{
     Write-Host $command -ForegroundColor Cyan
     Invoke-Expression $command
 }
+$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
+$env:DOTNET_NOLOGO = 1
 
 # install wham if necessary
 $wham = "$PSScriptRoot/lib/wham"
 if ($null -eq (Get-Command $wham -ErrorAction SilentlyContinue)) {
-    $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
-    $env:DOTNET_NOLOGO = 'true'
     PrintAndInvoke "dotnet tool install wham --version 0.7.0 --tool-path ""$PSScriptRoot/lib"""
 }
 
 # read inputs, set output
 $stagingPath = Get-ActionInput staging-path -Required
-New-Item $stagingPath -ItemType Directory -ErrorAction:Ignore
+$null = New-Item $stagingPath -ItemType Directory -ErrorAction:Ignore
 Set-ActionOutput staging-path $stagingPath
 
-# TODO "wham build/ci"
+# TODO sometime in future "wham build/ci"
 
 # Publish snapshot to staging path
 PrintAndInvoke "$wham publish -f snapshot -o ""$stagingPath"" --verbosity detailed"
