@@ -16,9 +16,15 @@ inputs:
 outputs:
   staging-path:
     description: Path where generated assets were saved.
+    value: ${{ inputs.staging-path }}
 runs:
-  using: node12
-  main: dist/index.js
+  using: composite
+  steps:
+    - run: ${{ github.action_path }}/action.ps1 -StagingPath $env:STAGING_PATH
+      shell: pwsh
+      id: script
+      env:
+        STAGING_PATH: ${{ inputs.staging-path }}
 branding:
   icon: book-open
   color: blue

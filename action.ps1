@@ -1,19 +1,18 @@
 #!/usr/bin/env pwsh
 
-$ErrorActionPreference = 'Stop'
-
-Import-Module $PSScriptRoot/lib/GitHubActionsCore
-
-# read inputs, set output
-$stagingPath = Get-ActionInput staging-path -Required
-$null = New-Item $stagingPath -ItemType Directory -ErrorAction:Ignore
-Set-ActionOutput staging-path $stagingPath
+[CmdletBinding()]
+param (
+    [Parameter(Mandatory)]
+    [string] $StagingPath
+)
 
 # check if there are any cat/gst files to process, otherwise short-circuit out
 if ((Get-ChildItem -Recurse -Include *.cat, *.gst -File).Length -eq 0) {
     Write-Host "No datafiles to process." -ForegroundColor Green
     exit 0
 }
+
+$null = New-Item $stagingPath -ItemType Directory -ErrorAction:Ignore
 
 function PrintAndInvoke{
     param($command)
@@ -33,6 +32,6 @@ if ($null -eq (Get-Command $wham -ErrorAction SilentlyContinue)) {
 # TODO sometime in future "wham build/ci"
 
 # Publish snapshot to staging path
-PrintAndInvoke "$wham publish -f snapshot -o ""$stagingPath"" --verbosity detailed"
+PrintAndInvoke "$wham publish -f snapshot -o ""$StagingPath"" --verbosity detailed"
 
 Write-Host "Done" -ForegroundColor Green
