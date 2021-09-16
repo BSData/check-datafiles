@@ -26,7 +26,7 @@ $env:DOTNET_NOLOGO = 1
 # install wham if necessary
 $wham = "$PSScriptRoot/lib/wham"
 if ($null -eq (Get-Command $wham -ErrorAction SilentlyContinue)) {
-    PrintAndInvoke "dotnet tool install wham --version 0.7.0 --tool-path ""$PSScriptRoot/lib"""
+    PrintAndInvoke "dotnet tool install wham --version 0.13.0 --tool-path ""$PSScriptRoot/lib"""
 }
 
 # TODO sometime in future "wham build/ci"
